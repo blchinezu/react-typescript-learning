@@ -18,8 +18,7 @@ import './AppBar.css'
 interface AppBarProps {
   currentPage: number,
   pages: { name: string, icon: any }[],
-  changeCurrentPage: any,
-  // changeCurrentPage: (pageIndex: number) => {},
+  changeCurrentPage: (pageIndex: number) => void,
 }
 
 interface AppBarState {
@@ -30,7 +29,6 @@ export default class AppBar extends React.Component<AppBarProps, AppBarState> {
   state: AppBarState = {
     opened: false,
   };
-
 
   setDrawerState(state: boolean, event: any): void {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
