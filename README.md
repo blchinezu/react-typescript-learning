@@ -4,6 +4,14 @@ This is just a basic project I made while learning React with TypeScript and Mat
 
 --------------------------------------------------------------------------------
 
+### Build environment
+
+To develop I used the following env:
+
+https://github.com/docker-things/intellij-ultimate-npm
+
+--------------------------------------------------------------------------------
+
 ### Install dependencies
 
 ```shell script
