@@ -1,0 +1,7 @@
+.ShittyAppBarToolbar {
+    display: flex;
+    justify-content: space-between;
+}
+.ShittyDrawer {
+    min-width: 35vw;
+}
