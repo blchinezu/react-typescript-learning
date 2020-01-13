@@ -10,7 +10,8 @@ import {
 } from "@material-ui/core";
 
 import {
-  getPage
+  getPage,
+  getDefaultPageIndex,
 } from './Components/Pages';
 
 interface AppState {
@@ -32,7 +33,7 @@ const darkTheme = createMuiTheme({
 
 export default class App extends React.Component<any, AppState> {
   state = {
-    currentPage: 0,
+    currentPage: getDefaultPageIndex(),
     theme: 'dark',
   };
 

@@ -1,19 +1,26 @@
 import React from "react";
 
 import HomePage from "./Pages/Home";
+import WeatherPage from "./Pages/Weather";
 import SettingsPage from "./Pages/Settings";
 import AboutPage from "./Pages/About";
 
 import {
   Home as HomeIcon,
   Info as InfoIcon,
+  WbSunny as WeatherIcon,
   Settings as SettingsIcon,
 } from '@material-ui/icons';
+
 
 const Pages = [{
   name: 'Home',
   icon: <HomeIcon/>,
   page: <HomePage/>,
+}, {
+  name: 'Weather',
+  icon: <WeatherIcon/>,
+  page: <WeatherPage/>,
 }, {
   name: 'Settings',
   icon: <SettingsIcon/>,
@@ -24,6 +31,9 @@ const Pages = [{
   page: <AboutPage/>,
 }];
 
+export function getDefaultPageIndex(): number {
+  return 1;
+}
 
 export function getPage(index: number): {
   name: string,
