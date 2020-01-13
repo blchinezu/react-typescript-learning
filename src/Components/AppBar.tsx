@@ -17,9 +17,13 @@ import {
 } from '@material-ui/icons';
 import './AppBar.css'
 
+import {
+  getAllPages,
+  getPage,
+} from './Pages';
+
 interface AppBarProps {
   currentPage: number,
-  pages: { name: string, icon: any }[],
   changeCurrentPage: (pageIndex: number) => void,
   toggleTheme: () => void,
   currentTheme: string,
@@ -60,7 +64,7 @@ export default class AppBar extends React.Component<AppBarProps, AppBarState> {
             <MenuIcon/>
           </IconButton>
           <Typography variant="h6">
-            {this.props.pages[this.props.currentPage].name}
+            {getPage(this.props.currentPage).name}
           </Typography>
           <IconButton edge="start" color="inherit" aria-label="menu" onClick={event => this.props.toggleTheme()}>
             {themeIcon}
@@ -73,7 +77,7 @@ export default class AppBar extends React.Component<AppBarProps, AppBarState> {
         >
           <MuiDrawer open={this.state.opened} className="ShittyDrawer">
             <List>
-              {this.props.pages.map((page, pageIndex) => (
+              {getAllPages().map((page, pageIndex) => (
                 <ListItem button key={page.name} onClick={() => {
                   this.props.changeCurrentPage(pageIndex)
                 }}>

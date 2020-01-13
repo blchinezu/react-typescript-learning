@@ -2,26 +2,19 @@ import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import AppBar from "./Components/AppBar";
-import HomePage from "./Components/Pages/Home";
-import SettingsPage from "./Components/Pages/Settings";
-import AboutPage from "./Components/Pages/About";
-
-import {
-  Block as BlockIcon,
-  Home as HomeIcon,
-  Info as InfoIcon,
-  Settings as SettingsIcon,
-} from '@material-ui/icons';
 
 import {
   Container,
-  // makeStyles,
 } from "@material-ui/core";
 
 import {
   ThemeProvider,
   createMuiTheme,
 } from '@material-ui/core/styles';
+
+import {
+  getPage
+} from './Components/Pages';
 
 interface AppState {
   currentPage: number,
@@ -39,20 +32,6 @@ const darkTheme = createMuiTheme({
     type: 'dark',
   },
 });
-
-const pages = [{
-  name: 'Home',
-  icon: <HomeIcon/>,
-}, {
-  name: 'Settings',
-  icon: <SettingsIcon/>,
-}, {
-  name: 'About',
-  icon: <InfoIcon/>,
-}, {
-  name: 'The empty void',
-  icon: <BlockIcon/>,
-}];
 
 
 export default class App extends React.Component<any, AppState> {
@@ -74,22 +53,12 @@ export default class App extends React.Component<any, AppState> {
   };
 
   render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
+
     // Theme
-    let theme = this.state.theme === 'light' ? lightTheme : darkTheme;
+    const theme = this.state.theme === 'light' ? lightTheme : darkTheme;
 
     // Current page
-    let currentPage: any;
-    switch (this.state.currentPage) {
-      case 0:
-        currentPage = <HomePage/>;
-        break;
-      case 1:
-        currentPage = <SettingsPage/>;
-        break;
-      case 2:
-        currentPage = <AboutPage/>;
-        break;
-    }
+    const currentPage = getPage(this.state.currentPage).page;
 
     // Container style
     const containerStyle = {
@@ -102,8 +71,7 @@ export default class App extends React.Component<any, AppState> {
       <ThemeProvider theme={theme}>
         <div>
           <CssBaseline/>
-          <AppBar pages={pages}
-                  currentPage={this.state.currentPage}
+          <AppBar currentPage={this.state.currentPage}
                   changeCurrentPage={this.setCurrentPage}
                   toggleTheme={this.toggleTheme}
                   currentTheme={this.state.theme}
