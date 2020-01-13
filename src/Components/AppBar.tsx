@@ -1,4 +1,5 @@
 import React from 'react';
+import MuiDrawer from '@material-ui/core/Drawer';
 import {
   AppBar as MuiAppBar,
   IconButton,
@@ -9,13 +10,12 @@ import {
   Toolbar,
   Typography
 } from '@material-ui/core';
-import MuiDrawer from '@material-ui/core/Drawer';
+
 import {
   Menu as MenuIcon,
   BrightnessHigh as LightThemeIcon,
   Brightness3 as DarkThemeIcon,
 } from '@material-ui/icons';
-import './AppBar.css'
 
 import {
   getAllPages,
@@ -57,9 +57,18 @@ export default class AppBar extends React.Component<AppBarProps, AppBarState> {
   render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
     let themeIcon = this.props.currentTheme === 'light' ? <DarkThemeIcon/> : <LightThemeIcon/>;
 
+    const toolbarStyle = {
+      display: 'flex',
+      justifyContent: 'space-between',
+    };
+
+    const drawerStyle = {
+      minWidth: '35vw',
+    };
+
     return (
       <MuiAppBar position="static">
-        <Toolbar className="ShittyAppBarToolbar">
+        <Toolbar style={toolbarStyle}>
           <IconButton edge="start" color="inherit" aria-label="menu" onClick={event => this.toggleDrawer()}>
             <MenuIcon/>
           </IconButton>
@@ -75,7 +84,7 @@ export default class AppBar extends React.Component<AppBarProps, AppBarState> {
           onClick={event => this.setDrawerState(false, event)}
           onKeyDown={event => this.setDrawerState(false, event)}
         >
-          <MuiDrawer open={this.state.opened} className="ShittyDrawer">
+          <MuiDrawer open={this.state.opened} style={drawerStyle}>
             <List>
               {getAllPages().map((page, pageIndex) => (
                 <ListItem button key={page.name} onClick={() => {

@@ -5,12 +5,9 @@ import AppBar from "./Components/AppBar";
 
 import {
   Container,
-} from "@material-ui/core";
-
-import {
   ThemeProvider,
   createMuiTheme,
-} from '@material-ui/core/styles';
+} from "@material-ui/core";
 
 import {
   getPage
@@ -32,7 +29,6 @@ const darkTheme = createMuiTheme({
     type: 'dark',
   },
 });
-
 
 export default class App extends React.Component<any, AppState> {
   state = {
