@@ -6,9 +6,19 @@ This is just a basic project I made while learning React with TypeScript and Mat
 
 ### Build environment
 
-To develop I used the following env:
+To develop I used the following env: [github.com/docker-things/intellij-ultimate-npm](https://github.com/docker-things/intellij-ultimate-npm)
 
-https://github.com/docker-things/intellij-ultimate-npm
+Install docker-things:
+
+```shell script
+git clone https://github.com/docker-things/docker-things.git /tmp/dtrepo && bash /tmp/dtrepo/docker-things.sh self-install && rm -rf /tmp/dtrepo
+```
+
+Install env:
+
+```shell script
+docker-things install intellij-ultimate-npm
+```
 
 --------------------------------------------------------------------------------
 

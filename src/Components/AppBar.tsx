@@ -1,10 +1,10 @@
 import React from 'react';
 import {
   AppBar as MuiAppBar,
-  Button,
   IconButton,
   List,
-  ListItem, ListItemIcon,
+  ListItem,
+  ListItemIcon,
   ListItemText,
   Toolbar,
   Typography
@@ -12,6 +12,8 @@ import {
 import MuiDrawer from '@material-ui/core/Drawer';
 import {
   Menu as MenuIcon,
+  BrightnessHigh as LightThemeIcon,
+  Brightness3 as DarkThemeIcon,
 } from '@material-ui/icons';
 import './AppBar.css'
 
@@ -19,6 +21,8 @@ interface AppBarProps {
   currentPage: number,
   pages: { name: string, icon: any }[],
   changeCurrentPage: (pageIndex: number) => void,
+  toggleTheme: () => void,
+  currentTheme: string,
 }
 
 interface AppBarState {
@@ -47,17 +51,20 @@ export default class AppBar extends React.Component<AppBarProps, AppBarState> {
   }
 
   render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
+    let themeIcon = this.props.currentTheme === 'light' ? <DarkThemeIcon/> : <LightThemeIcon/>;
+
     return (
       <MuiAppBar position="static">
         <Toolbar className="ShittyAppBarToolbar">
-          <IconButton edge="start" color="inherit" aria-label="menu"
-                      onClick={event => this.toggleDrawer()}>
+          <IconButton edge="start" color="inherit" aria-label="menu" onClick={event => this.toggleDrawer()}>
             <MenuIcon/>
           </IconButton>
           <Typography variant="h6">
             {this.props.pages[this.props.currentPage].name}
           </Typography>
-          <Button color="inherit">Login</Button>
+          <IconButton edge="start" color="inherit" aria-label="menu" onClick={event => this.props.toggleTheme()}>
+            {themeIcon}
+          </IconButton>
         </Toolbar>
         <div
           role="presentation"

@@ -12,30 +12,54 @@ import {
   Info as InfoIcon,
   Settings as SettingsIcon,
 } from '@material-ui/icons';
-import {Container} from "@material-ui/core";
+
+import {
+  Container,
+  // makeStyles,
+} from "@material-ui/core";
+
+import {
+  ThemeProvider,
+  createMuiTheme,
+} from '@material-ui/core/styles';
 
 interface AppState {
   currentPage: number,
+  theme: string,
 }
+
+const lightTheme = createMuiTheme({
+  palette: {
+    type: 'light',
+  },
+});
+
+const darkTheme = createMuiTheme({
+  palette: {
+    type: 'dark',
+  },
+});
+
+const pages = [{
+  name: 'Home',
+  icon: <HomeIcon/>,
+}, {
+  name: 'Settings',
+  icon: <SettingsIcon/>,
+}, {
+  name: 'About',
+  icon: <InfoIcon/>,
+}, {
+  name: 'The empty void',
+  icon: <BlockIcon/>,
+}];
+
 
 export default class App extends React.Component<any, AppState> {
   state = {
     currentPage: 0,
-  }
-
-  pages = [{
-    name: 'Home',
-    icon: <HomeIcon/>,
-  }, {
-    name: 'Settings',
-    icon: <SettingsIcon/>,
-  }, {
-    name: 'About',
-    icon: <InfoIcon/>,
-  }, {
-    name: 'The empty void',
-    icon: <BlockIcon/>,
-  }];
+    theme: 'dark',
+  };
 
   setCurrentPage = (pageIndex: number): void => {
     this.setState({
@@ -43,9 +67,18 @@ export default class App extends React.Component<any, AppState> {
     })
   };
 
-  render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
-    let currentPage: any = '';
+  toggleTheme = (): void => {
+    this.setState({
+      theme: this.state.theme === 'light' ? 'dark' : 'light',
+    })
+  };
 
+  render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
+    // Theme
+    let theme = this.state.theme === 'light' ? lightTheme : darkTheme;
+
+    // Current page
+    let currentPage: any;
     switch (this.state.currentPage) {
       case 0:
         currentPage = <HomePage/>;
@@ -58,22 +91,28 @@ export default class App extends React.Component<any, AppState> {
         break;
     }
 
-    let containerStyle = {
+    // Container style
+    const containerStyle = {
       marginTop: '2vh',
       marginBottom: '2vh',
     };
 
+    // JSX
     return (
-      <div className="App">
-        <CssBaseline/>
-        <AppBar pages={this.pages}
-                currentPage={this.state.currentPage}
-                changeCurrentPage={this.setCurrentPage}
-        />
-        <Container fixed style={containerStyle}>
-          {currentPage}
-        </Container>
-      </div>
+      <ThemeProvider theme={theme}>
+        <div>
+          <CssBaseline/>
+          <AppBar pages={pages}
+                  currentPage={this.state.currentPage}
+                  changeCurrentPage={this.setCurrentPage}
+                  toggleTheme={this.toggleTheme}
+                  currentTheme={this.state.theme}
+          />
+          <Container fixed style={containerStyle}>
+            {currentPage}
+          </Container>
+        </div>
+      </ThemeProvider>
     );
   }
 }
