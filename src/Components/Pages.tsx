@@ -32,7 +32,7 @@ const Pages = [{
 }];
 
 export function getDefaultPageIndex(): number {
-  return 1;
+  return 0;
 }
 
 export function getPage(index: number): {
