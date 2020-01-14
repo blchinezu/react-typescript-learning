@@ -13,14 +13,17 @@ import {
 
 import {
   Menu as MenuIcon,
-  BrightnessHigh as LightThemeIcon,
-  Brightness3 as DarkThemeIcon,
 } from '@material-ui/icons';
 
 import {
   getAllPages,
   getPage,
 } from './Pages';
+
+import {
+  DarkThemeIcon,
+  LightThemeIcon
+} from "./Themes";
 
 interface AppBarProps {
   currentPage: number,
@@ -55,7 +58,7 @@ export default class AppBar extends React.Component<AppBarProps, AppBarState> {
   }
 
   render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
-    const themeIcon = this.props.currentTheme === 'light' ? <DarkThemeIcon/> : <LightThemeIcon/>;
+    const themeIcon = this.props.currentTheme === 'light' ? DarkThemeIcon : LightThemeIcon;
 
     const toolbarStyle = {
       display: 'flex',

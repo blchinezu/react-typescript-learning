@@ -6,7 +6,7 @@ import AppBar from "./Components/AppBar";
 import {
   Container,
   ThemeProvider,
-  createMuiTheme, CardMedia,
+  CardMedia,
 } from "@material-ui/core";
 
 import {
@@ -14,22 +14,15 @@ import {
   getDefaultPageIndex,
 } from './Components/Pages';
 
+import {
+  DarkTheme,
+  LightTheme
+} from "./Components/Themes";
+
 interface AppState {
   currentPage: number,
   theme: string,
 }
-
-const lightTheme = createMuiTheme({
-  palette: {
-    type: 'light',
-  },
-});
-
-const darkTheme = createMuiTheme({
-  palette: {
-    type: 'dark',
-  },
-});
 
 export default class App extends React.Component<any, AppState> {
   state = {
@@ -52,7 +45,7 @@ export default class App extends React.Component<any, AppState> {
   render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
 
     // Theme
-    const theme = this.state.theme === 'light' ? lightTheme : darkTheme;
+    const theme = this.state.theme === 'light' ? LightTheme : DarkTheme;
 
     // Current page
     const currentPage = getPage(this.state.currentPage).page;
