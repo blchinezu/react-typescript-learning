@@ -1,72 +1,123 @@
 import React from 'react';
-import {Button, Card, CardActions, CardContent, Grid, makeStyles, Paper, Typography} from "@material-ui/core";
+import {
+  Backdrop,
+  CircularProgress,
+  // Paper,
+  Grid,
+} from "@material-ui/core";
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
-  card: {
-    minWidth: 275,
-  },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
-}));
-// http://api.openweathermap.org/data/2.5/forecast?id=524901&APPID={APIKEY}
-const WeatherPage: React.FC = () => {
-  const classes = useStyles();
+import DayCard from "./Weather/DayCard";
 
-  return (
-    <div className="WeatherPage">
-      <Grid
-        container
-        direction="column"
-        justify="space-around"
-        alignItems="stretch"
-        spacing={1}
-      >
-        <Grid item xs={12}>
-          <Card className={classes.card}>
-            <CardContent>
-              <Typography className={classes.title} color="textSecondary" gutterBottom>
-                Word of the Day
-              </Typography>
-              <Typography className={classes.pos} color="textSecondary">
-                adjective
-              </Typography>
-              <Typography variant="body2" component="p">
-                well meaning and kindly.
-                <br/>
-                "a benevolent smile"
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small">Learn More</Button>
-            </CardActions>
-          </Card>
-        </Grid>
-        <Grid item xs={12}>
-          <Paper className={classes.paper}>Nothing to see here folks!</Paper>
-        </Grid>
-        <Grid item xs={12}>
-          <Paper className={classes.paper}>seriously!</Paper>
-        </Grid>
-      </Grid>
-    </div>
-  );
+const API_URL = 'http://api.openweathermap.org/data/2.5/forecast?id=[CITY_ID]&appid=[API_KEY]&units=metric';
+const CITY_ID = '524901';
+const API_KEY = '573b776183df1fe28fc572caf72427b1';
+
+interface WeatherPageState {
+  isLoaded: boolean,
+  data: {
+    [key: string]: {
+      date: string,
+      time: string,
+      temp: number,
+      temp_min: number,
+      temp_max: number,
+      feels_like: number,
+      weather: string,
+    }[],
+  },
+  expandedDate: string,
+  error: string,
 }
 
-export default WeatherPage;
+export default class WeatherPage extends React.Component<any, WeatherPageState> {
+  state: WeatherPageState = {
+    isLoaded: false,
+    data: {},
+    expandedDate: '',
+    error: '',
+  };
+
+  setExpanded = (date: string) => {
+    this.setState({
+      expandedDate: this.state.expandedDate === date ? '' : date,
+    })
+  };
+
+  componentDidMount() {
+    const URL = API_URL
+      .replace('[CITY_ID]', CITY_ID)
+      .replace('[API_KEY]', API_KEY);
+
+    fetch(URL)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          let data = {};
+          for (let i = 0; i < result.list.length; i++) {
+            let hourData = {
+              date: result.list[i]["dt_txt"].split(' ')[0],
+              time: result.list[i]["dt_txt"].split(' ')[1],
+              temp: Math.round(result.list[i]["main"]["temp"]),
+              temp_min: Math.round(result.list[i]["main"]["temp_min"]),
+              temp_max: Math.round(result.list[i]["main"]["temp_max"]),
+              feels_like: Math.round(result.list[i]["main"]["feels_like"]),
+            };
+            if (!(hourData.date in data)) {
+              data[hourData.date] = [];
+            }
+            data[hourData.date].push(hourData);
+
+            if (this.state.expandedDate === '') {
+              this.setState({
+                expandedDate: hourData.date,
+              });
+            }
+          }
+          this.setState({
+            isLoaded: true,
+            data: data,
+            error: ''
+          });
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            data: {},
+            error: error.message
+          });
+        }
+      )
+  }
+
+  render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
+
+    let content = [];
+    if (this.state.isLoaded) {
+      for (let key in this.state.data) {
+        content.push(
+          <DayCard
+            date={key}
+            key={key}
+            setExpanded={this.setExpanded}
+            expandedDate={this.state.expandedDate}
+            hours={this.state.data[key]}
+          />
+        );
+      }
+    } else {
+      content.push(
+        <Backdrop open={true} key='loading'>
+          <CircularProgress color="inherit"/>
+        </Backdrop>
+      );
+    }
+
+    return (
+      <div className="WeatherPage">
+        <Grid container spacing={1} direction="column">
+          {content}
+        </Grid>
+      </div>
+    );
+  }
+}

@@ -55,7 +55,7 @@ export default class AppBar extends React.Component<AppBarProps, AppBarState> {
   }
 
   render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
-    let themeIcon = this.props.currentTheme === 'light' ? <DarkThemeIcon/> : <LightThemeIcon/>;
+    const themeIcon = this.props.currentTheme === 'light' ? <DarkThemeIcon/> : <LightThemeIcon/>;
 
     const toolbarStyle = {
       display: 'flex',
@@ -63,7 +63,7 @@ export default class AppBar extends React.Component<AppBarProps, AppBarState> {
     };
 
     const drawerStyle = {
-      minWidth: '35vw',
+      minWidth: '45vw',
     };
 
     return (
@@ -84,8 +84,8 @@ export default class AppBar extends React.Component<AppBarProps, AppBarState> {
           onClick={event => this.setDrawerState(false, event)}
           onKeyDown={event => this.setDrawerState(false, event)}
         >
-          <MuiDrawer open={this.state.opened} style={drawerStyle}>
-            <List>
+          <MuiDrawer open={this.state.opened}>
+            <List style={drawerStyle}>
               {getAllPages().map((page, pageIndex) => (
                 <ListItem button key={page.name} onClick={() => {
                   this.props.changeCurrentPage(pageIndex)
