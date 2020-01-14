@@ -6,7 +6,7 @@ import AppBar from "./Components/AppBar";
 import {
   Container,
   ThemeProvider,
-  createMuiTheme,
+  createMuiTheme, CardMedia,
 } from "@material-ui/core";
 
 import {
@@ -63,20 +63,31 @@ export default class App extends React.Component<any, AppState> {
       marginBottom: '2vh',
     };
 
+    const backgroundStyle = {
+      minHeight: '100vh',
+    };
+
+    const backgroundImage = './bkg/' + this.state.theme + '.jpg';
+
     // JSX
     return (
       <ThemeProvider theme={theme}>
-        <div>
-          <CssBaseline/>
-          <AppBar currentPage={this.state.currentPage}
-                  changeCurrentPage={this.setCurrentPage}
-                  toggleTheme={this.toggleTheme}
-                  currentTheme={this.state.theme}
-          />
-          <Container fixed style={containerStyle}>
-            {currentPage}
-          </Container>
-        </div>
+        <CardMedia
+          image={backgroundImage}
+          style={backgroundStyle}
+        >
+          <div>
+            <CssBaseline/>
+            <AppBar currentPage={this.state.currentPage}
+                    changeCurrentPage={this.setCurrentPage}
+                    toggleTheme={this.toggleTheme}
+                    currentTheme={this.state.theme}
+            />
+            <Container fixed style={containerStyle}>
+              {currentPage}
+            </Container>
+          </div>
+        </CardMedia>
       </ThemeProvider>
     );
   }
