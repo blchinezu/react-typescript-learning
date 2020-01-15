@@ -6,25 +6,47 @@ import {
   Brightness3,
 } from '@material-ui/icons';
 
-export const LightThemeIcon = <BrightnessHigh/>;
-export const DarkThemeIcon  = <Brightness3/>;
-
-export const LightTheme = createMuiTheme({
-  palette: {
-    type: 'light',
-    background: {
-      paper: "rgba(255,255,255,0.75)",
-      default: "rgba(255,255,255,0.75)",
-    },
+export const themes = {
+  'light': {
+    icon: <BrightnessHigh/>,
+    alpha: createMuiTheme({
+      palette: {
+        type: 'light',
+        background: {
+          paper: "rgba(255,255,255,0.75)",
+          default: "rgba(255,255,255,0.75)",
+        },
+      },
+    }),
+    opaque: createMuiTheme({
+      palette: {
+        type: 'light',
+        background: {
+          paper: "rgba(255,255,255,1)",
+          default: "rgba(255,255,255,1)",
+        },
+      },
+    }),
   },
-});
-
-export const DarkTheme = createMuiTheme({
-  palette: {
-    type: 'dark',
-    background: {
-      paper: "rgba(66,66,66,0.75)",
-      default: "rgba(66,66,66,0.75)",
-    },
+  'dark': {
+    icon: <Brightness3/>,
+    alpha: createMuiTheme({
+      palette: {
+        type: 'dark',
+        background: {
+          paper: "rgba(66,66,66,0.75)",
+          default: "rgba(66,66,66,0.75)",
+        },
+      },
+    }),
+    opaque: createMuiTheme({
+      palette: {
+        type: 'dark',
+        background: {
+          paper: "rgba(66,66,66,1)",
+          default: "rgba(66,66,66,1)",
+        },
+      },
+    }),
   },
-});
+};

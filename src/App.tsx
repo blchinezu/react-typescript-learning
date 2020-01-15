@@ -14,10 +14,7 @@ import {
   getDefaultPageIndex,
 } from './Components/Pages';
 
-import {
-  DarkTheme,
-  LightTheme
-} from "./Components/Themes";
+import {themes} from "./Components/Themes";
 
 interface AppState {
   currentPage: number,
@@ -45,7 +42,7 @@ export default class App extends React.Component<any, AppState> {
   render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
 
     // Theme
-    const theme = this.state.theme === 'light' ? LightTheme : DarkTheme;
+    const theme = themes[this.state.theme].alpha;
 
     // Current page
     const currentPage = getPage(this.state.currentPage).page;
