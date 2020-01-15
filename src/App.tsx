@@ -55,6 +55,7 @@ export default class App extends React.Component<any, AppState> {
 
     const backgroundStyle = {
       minHeight: '100vh',
+      minWidth: '100vw',
     };
 
     const backgroundImage = './bkg/' + this.state.theme + '.jpg';
