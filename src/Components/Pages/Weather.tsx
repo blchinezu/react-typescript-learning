@@ -8,8 +8,8 @@ import {
 
 import DayCard from "./Weather/DayCard";
 
-const API_URL = 'http://api.openweathermap.org/data/2.5/forecast?id=[CITY_ID]&appid=[API_KEY]&units=metric';
-const CITY_ID = '524901';
+const API_URL = 'http://api.openweathermap.org/data/2.5/forecast?q=[CITY_STR]&appid=[API_KEY]&units=metric';
+const CITY_STR = 'Bucharest,ro';
 const API_KEY = '573b776183df1fe28fc572caf72427b1';
 
 interface WeatherPageState {
@@ -22,7 +22,6 @@ interface WeatherPageState {
       temp_min: number,
       temp_max: number,
       feels_like: number,
-      weather: string,
     }[],
   },
   expandedDate: string,
@@ -45,7 +44,7 @@ export default class WeatherPage extends React.Component<any, WeatherPageState> 
 
   componentDidMount() {
     const URL = API_URL
-      .replace('[CITY_ID]', CITY_ID)
+      .replace('[CITY_STR]', CITY_STR)
       .replace('[API_KEY]', API_KEY);
 
     fetch(URL)
