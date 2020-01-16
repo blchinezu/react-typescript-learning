@@ -30,42 +30,40 @@ const HomePage: React.FC = () => {
   const classes = useStyles();
 
   return (
-    <div className="HomePage">
-      <Grid
-        container
-        direction="column"
-        justify="space-around"
-        alignItems="stretch"
-        spacing={1}
-      >
-        <Grid item xs={12}>
-          <Card className={classes.card}>
-            <CardContent>
-              <Typography className={classes.title} color="textSecondary" gutterBottom>
-                Word of the Day
-              </Typography>
-              <Typography className={classes.pos} color="textSecondary">
-                adjective
-              </Typography>
-              <Typography variant="body2" component="p">
-                well meaning and kindly.
-                <br/>
-                "a benevolent smile"
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small">Learn More</Button>
-            </CardActions>
-          </Card>
-        </Grid>
-        <Grid item xs={12}>
-          <Paper className={classes.paper}>Nothing to see here folks!</Paper>
-        </Grid>
-        <Grid item xs={12}>
-          <Paper className={classes.paper}>seriously!</Paper>
-        </Grid>
+    <Grid
+      container
+      direction="column"
+      justify="space-around"
+      alignItems="stretch"
+      spacing={1}
+    >
+      <Grid item xs={12}>
+        <Card className={classes.card}>
+          <CardContent>
+            <Typography className={classes.title} color="textSecondary" gutterBottom>
+              Word of the Day
+            </Typography>
+            <Typography className={classes.pos} color="textSecondary">
+              adjective
+            </Typography>
+            <Typography variant="body2" component="p">
+              well meaning and kindly.
+              <br/>
+              "a benevolent smile"
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button size="small">Learn More</Button>
+          </CardActions>
+        </Card>
       </Grid>
-    </div>
+      <Grid item xs={12}>
+        <Paper className={classes.paper}>Nothing to see here folks!</Paper>
+      </Grid>
+      <Grid item xs={12}>
+        <Paper className={classes.paper}>seriously!</Paper>
+      </Grid>
+    </Grid>
   );
 }
 

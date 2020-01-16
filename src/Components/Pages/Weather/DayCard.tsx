@@ -7,7 +7,7 @@ import {
   makeStyles, Theme,
   Typography
 } from "@material-ui/core";
-import HourCard from "./HourCard";
+import HourRow from "./HourRow";
 
 import {
   ArrowUpward as MaxTempIcon,
@@ -110,9 +110,9 @@ const DayCard: React.FC<DayCardProps> = (props) => {
           alignItems="stretch"
           spacing={1}
         >
-          <HourCard key='header' data={header}/>
+          <HourRow key='header' data={header}/>
           {props.hours.map((data) =>
-            <HourCard key={data.time} data={data}/>
+            <HourRow key={data.time} data={data}/>
           )}
         </Grid>
       </ExpansionPanelDetails>

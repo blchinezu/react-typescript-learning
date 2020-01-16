@@ -12,19 +12,17 @@ const useStyles = makeStyles(theme => ({
 const AboutPage: React.FC = () => {
   const classes = useStyles();
   return (
-    <div className="AboutPage">
-      <Grid
-        container
-        direction="column"
-        justify="space-around"
-        alignItems="stretch"
-        spacing={1}
-      >
-        <Grid item xs={12}>
-          <Paper className={classes.paper}>Nothing to see here, move on!</Paper>
-        </Grid>
+    <Grid
+      container
+      direction="column"
+      justify="space-around"
+      alignItems="stretch"
+      spacing={1}
+    >
+      <Grid item xs={12}>
+        <Paper className={classes.paper}>Nothing to see here, move on!</Paper>
       </Grid>
-    </div>
+    </Grid>
   );
 }
 

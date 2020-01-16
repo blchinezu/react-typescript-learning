@@ -1,18 +1,13 @@
 import React from 'react';
-import {
-  Backdrop,
-  CircularProgress,
-  // Paper,
-  Grid,
-} from "@material-ui/core";
-
-import DayCard from "./Weather/DayCard";
+import {Grid} from "@material-ui/core";
+import Forecast from "./Weather/Forecast";
+import CityChooser from "./Weather/CityChooser";
 
 const API_URL = 'http://api.openweathermap.org/data/2.5/forecast?q=[CITY_STR]&appid=[API_KEY]&units=metric';
-const CITY_STR = 'Bucharest,ro';
 const API_KEY = '573b776183df1fe28fc572caf72427b1';
 
 interface WeatherPageState {
+  city: string,
   isLoaded: boolean,
   data: {
     [key: string]: {
@@ -24,33 +19,36 @@ interface WeatherPageState {
       feels_like: number,
     }[],
   },
-  expandedDate: string,
   error: string,
 }
 
 export default class WeatherPage extends React.Component<any, WeatherPageState> {
   state: WeatherPageState = {
+    city: '',
     isLoaded: false,
     data: {},
-    expandedDate: '',
     error: '',
   };
 
-  setExpanded = (date: string) => {
-    this.setState({
-      expandedDate: this.state.expandedDate === date ? '' : date,
-    })
+  handleChangedCity = (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
+    this.fetchWeatherData(String(event.target.value));
   };
 
-  componentDidMount() {
+  fetchWeatherData(city: string) {
+    console.log('shit')
     const URL = API_URL
-      .replace('[CITY_STR]', CITY_STR)
+      .replace('[CITY_STR]', city)
       .replace('[API_KEY]', API_KEY);
 
     fetch(URL)
       .then(res => res.json())
       .then(
         (result) => {
+
+          if (!result.list) {
+            return;
+          }
+
           let data = {};
           for (let i = 0; i < result.list.length; i++) {
             let hourData = {
@@ -65,58 +63,35 @@ export default class WeatherPage extends React.Component<any, WeatherPageState> 
               data[hourData.date] = [];
             }
             data[hourData.date].push(hourData);
-
-            if (this.state.expandedDate === '') {
-              this.setState({
-                expandedDate: hourData.date,
-              });
-            }
           }
           this.setState({
             isLoaded: true,
             data: data,
-            error: ''
+            error: '',
+            city: city,
           });
         },
         (error) => {
           this.setState({
             isLoaded: true,
             data: {},
-            error: error.message
+            error: error.message,
+            city: city,
           });
         }
       )
   }
 
-  render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
-
-    let content = [];
-    if (this.state.isLoaded) {
-      for (let key in this.state.data) {
-        content.push(
-          <DayCard
-            date={key}
-            key={key}
-            setExpanded={this.setExpanded}
-            expandedDate={this.state.expandedDate}
-            hours={this.state.data[key]}
-          />
-        );
-      }
-    } else {
-      content.push(
-        <Backdrop open={true} key='loading'>
-          <CircularProgress color="inherit"/>
-        </Backdrop>
-      );
-    }
-
+  render(): React.ReactElement {
     return (
-      <div className="WeatherPage">
-        <Grid container spacing={1} direction="column">
-          {content}
+      <Grid container spacing={1} direction="column">
+        <Grid item xs={12}>
+          <CityChooser city={this.state.city} handleChangedCity={this.handleChangedCity}/>
         </Grid>
-      </div>
+        <Grid item xs={12}>
+          <Forecast city={this.state.city} data={this.state.data}/>
+        </Grid>
+      </Grid>
     );
   }
 }

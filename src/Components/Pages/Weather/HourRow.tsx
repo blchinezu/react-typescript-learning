@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const HourCard: React.FC<HourCardProps> = (props) => {
+const HourRow: React.FC<HourCardProps> = (props) => {
   const classes = useStyles();
   const tmp = props.data.time.split(':');
   let hour = props.data.time;
@@ -63,4 +63,4 @@ const HourCard: React.FC<HourCardProps> = (props) => {
   );
 }
 
-export default HourCard;
+export default HourRow;
