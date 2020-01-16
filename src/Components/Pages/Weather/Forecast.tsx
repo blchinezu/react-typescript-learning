@@ -32,7 +32,6 @@ export default class Forecast extends React.Component<ForecastProps, ForecastSta
   };
 
   componentDidMount(): void {
-    console.log('mounted')
     this.setExpandedDate();
   }
 
@@ -47,8 +46,6 @@ export default class Forecast extends React.Component<ForecastProps, ForecastSta
 
   render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
     let content = [];
-    console.log('render forec')
-    console.log(this.props.data)
 
     let first = true;
     for (let key in this.props.data) {
