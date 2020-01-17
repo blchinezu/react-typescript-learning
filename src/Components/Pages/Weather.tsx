@@ -3,11 +3,11 @@ import {Grid} from "@material-ui/core";
 import Forecast from "./Weather/Forecast";
 import CityChooser from "./Weather/CityChooser";
 
-const API_URL = 'http://api.openweathermap.org/data/2.5/forecast?q=[CITY_STR]&appid=[API_KEY]&units=metric';
+const API_URL = 'http://api.openweathermap.org/data/2.5/forecast?units=metric&id=[CITY_ID]&appid=[API_KEY]';
 const API_KEY = '573b776183df1fe28fc572caf72427b1';
 
 interface WeatherPageState {
-  city: string,
+  city: number,
   isLoaded: boolean,
   data: {
     [key: string]: {
@@ -24,27 +24,25 @@ interface WeatherPageState {
 
 export default class WeatherPage extends React.Component<any, WeatherPageState> {
   state: WeatherPageState = {
-    city: '',
+    city: 0,
     isLoaded: false,
     data: {},
     error: '',
   };
 
   handleChangedCity = (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
-    this.fetchWeatherData(String(event.target.value));
+    this.fetchWeatherData(parseInt(String(event.target.value)));
   };
 
-  fetchWeatherData(city: string) {
-    console.log('shit')
+  fetchWeatherData(city: number) {
     const URL = API_URL
-      .replace('[CITY_STR]', city)
+      .replace('[CITY_ID]', String(city))
       .replace('[API_KEY]', API_KEY);
 
     fetch(URL)
       .then(res => res.json())
       .then(
         (result) => {
-
           if (!result.list) {
             return;
           }
@@ -89,7 +87,7 @@ export default class WeatherPage extends React.Component<any, WeatherPageState> 
           <CityChooser city={this.state.city} handleChangedCity={this.handleChangedCity}/>
         </Grid>
         <Grid item xs={12}>
-          <Forecast city={this.state.city} data={this.state.data}/>
+          <Forecast data={this.state.data}/>
         </Grid>
       </Grid>
     );

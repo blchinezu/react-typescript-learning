@@ -3,7 +3,6 @@ import {Grid} from "@material-ui/core";
 import DayCard from "./DayCard";
 
 interface ForecastProps {
-  city: string,
   data: {
     [key: string]: {
       date: string,
